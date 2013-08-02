@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <climits>
 
 using namespace std;
 
@@ -39,8 +40,11 @@ void bogosort(vector<int> &stuff, long long unsigned &count, long long unsigned 
 	{
 		random_shuffle(stuff.begin(), stuff.end());
 		count++;
-		if(count == 0)
+		if(count == ULLONG_MAX)
+		{
+			count = 0;
 			overflowCount++;
+		}
 	}
 }
 
