@@ -1,15 +1,18 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <random>
+#include <chrono>
 
 using namespace std;
 
 void bogosort(vector<int> &stuff, long long unsigned &count, long long unsigned &overflowCount);
-void shuffle(vector<int> &stuff);
 bool isSortedAsc(vector<int> &stuff);
 
 int main()
 {
 	int inputSize = 20;
+	
 	cout << "Bogosorting ints, input size from 0 to " << inputSize << endl;
 	cout << "Counting in unsigned long long, also counting overflows" << endl << endl;
 	for(int i = 1; i <= inputSize; i++)
@@ -18,7 +21,7 @@ int main()
 		vec.reserve(i);
 		for(int j = 0; j < i; j++)
 			vec.push_back(j);
-		shuffle(vec);
+		random_shuffle(vec.begin(), vec.end());
 		long long unsigned count, overflowCount;
 		bogosort(vec, count, overflowCount);
 		cout << "input size: " << i << endl 
@@ -34,26 +37,11 @@ void bogosort(vector<int> &stuff, long long unsigned &count, long long unsigned 
 	overflowCount = 0;
 	while (!isSortedAsc(stuff))
 	{
-		shuffle(stuff);
+		random_shuffle(stuff.begin(), stuff.end());
 		count++;
 		if(count == 0)
 			overflowCount++;
 	}
-}
-
-void shuffle(vector<int> &stuff)
-{
-	vector<int> other;
-	other.reserve(stuff.size());
-
-	while(stuff.size() > 0)
-	{
-		int i = rand() % stuff.size();
-		other.push_back(stuff[i]);
-		stuff[i] = stuff[stuff.size() - 1];
-		stuff.pop_back();
-	}
-	stuff = other;
 }
 
 bool isSortedAsc(vector<int> &stuff)
